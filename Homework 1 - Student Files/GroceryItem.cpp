@@ -185,7 +185,7 @@ double GroceryItem::price() const &
 std::string GroceryItem::upcCode() &&
 {
   ///////////////////////// TO-DO (12) //////////////////////////////
-
+  return _upcCode;
   /////////////////////// END-TO-DO (12) ////////////////////////////
 }
 
@@ -196,7 +196,7 @@ std::string GroceryItem::upcCode() &&
 ///////////////////////// TO-DO (13) //////////////////////////////
 std::string GroceryItem::brandName() &&
 {
-
+  return _brandName;
 }
 /////////////////////// END-TO-DO (13) ////////////////////////////
 
@@ -207,7 +207,7 @@ std::string GroceryItem::brandName() &&
 ///////////////////////// TO-DO (14) //////////////////////////////
 std::string GroceryItem::productName() &&
 {
-
+  return _productName;
 }
 /////////////////////// END-TO-DO (14) ////////////////////////////
 

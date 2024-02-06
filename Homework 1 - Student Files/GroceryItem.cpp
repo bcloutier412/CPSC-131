@@ -394,10 +394,12 @@ operator>>( std::istream & stream, GroceryItem & groceryItem )
     /// Hint:  Use std::quoted to read and write quoted strings.  See
     ///        1) https://en.cppreference.com/w/cpp/io/manip/quoted
     ///        2) https://www.youtube.com/watch?v=Mu-GUZuU31A
-  stream >> std::quoted( groceryItem._upcCode )
-      >> std::quoted( groceryItem._brandName )
-      >> std::quoted( groceryItem._productName )
-      >> groceryItem._price;
+  std::string throwAway;
+  GroceryItem newItem;
+
+  stream >> std::quoted( newItem._upcCode, '"', ',' )
+
+  std::cout << newItem;
 
   return stream;
   /////////////////////// END-TO-DO (21) ////////////////////////////

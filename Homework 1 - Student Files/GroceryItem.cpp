@@ -36,7 +36,7 @@ namespace    // unnamed, anonymous namespace
       ///           else       return false;
       ///         do this instead:
       ///           return a < b;
-    return lhs == rhs;
+    return std::abs( lhs - rhs ) <= EPSILON;
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 }    // unnamed, anonymous namespace
@@ -91,7 +91,7 @@ GroceryItem::GroceryItem( GroceryItem && other ) noexcept
 GroceryItem & GroceryItem::operator=( GroceryItem const & rhs ) &
 {
   ///////////////////////// TO-DO (5) //////////////////////////////
-  if (this != &rhs)
+  if ( this != &rhs )
   {
     _productName = rhs._productName;
     _brandName   = rhs._brandName;
@@ -109,7 +109,7 @@ GroceryItem & GroceryItem::operator=( GroceryItem const & rhs ) &
 GroceryItem & GroceryItem::operator=( GroceryItem && rhs ) & noexcept
 ///////////////////////// TO-DO (6) //////////////////////////////
 {
-  if( this != &rhs )
+  if ( this != &rhs )
   {
     _productName = std::move(rhs._productName);
     _brandName   = std::move(rhs._brandName);
@@ -309,7 +309,42 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   // (sorted) by UPC code, product name, brand name, then price.
 
   ///////////////////////// TO-DO (19) //////////////////////////////
-
+  if ( _upcCode < rhs._upcCode )
+  {
+    return std::weak_ordering::less;
+  }
+  else if ( _upcCode > rhs._upcCode )
+  {
+    return std::weak_ordering::greater;
+  }
+  else if ( _productName < rhs._productName )
+  {
+    return std::weak_ordering::less;
+  }
+  else if( _productName > rhs._productName )
+  {
+    return std::weak_ordering::greater;
+  }
+  else if( _brandName < rhs._brandName )
+  {
+    return std::weak_ordering::less;
+  }
+  else if( _brandName > rhs._brandName )
+  {
+    return std::weak_ordering::greater;
+  }
+  else if( floating_point_is_equal( _price, rhs._price ) )
+  {
+    return std::weak_ordering::equivalent;
+  }
+  else if( _price < rhs._price )
+  {
+    return std::weak_ordering::less;
+  }
+  else if( _price > rhs._price )
+  {
+    return std::weak_ordering::greater;
+  }
   /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 
@@ -317,14 +352,13 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
 
 
 // operator==(...)
-bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
-{
-  // All attributes must be equal for the two grocery items to be equal to the other.  This can be done in any order, so put the
-  // quickest and then the most likely to be different first.
+bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept {
+    // All attributes must be equal for the two grocery items to be equal to the other.  This can be done in any order, so put the
+    // quickest and then the most likely to be different first.
 
-  ///////////////////////// TO-DO (20) //////////////////////////////
-
-  /////////////////////// END-TO-DO (20) ////////////////////////////
+    ///////////////////////// TO-DO (20) //////////////////////////////
+    return ( floating_point_is_equal( _price, rhs._price ) && _upcCode == rhs._upcCode && _brandName == rhs._brandName && _productName == rhs._productName );
+    /////////////////////// END-TO-DO (20) ////////////////////////////
 }
 
 
@@ -339,7 +373,8 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
 *******************************************************************************/
 
 // operator>>(...)
-std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
+std::istream &
+operator>>( std::istream & stream, GroceryItem & groceryItem )
 {
   char delimiter = '\x{0000}';  // C++23 delimited escape sequence for the character whose value is zero, i.e., the null character
   ///////////////////////// TO-DO (21) //////////////////////////////

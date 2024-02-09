@@ -396,13 +396,15 @@ operator>>( std::istream & stream, GroceryItem & groceryItem )
     ///        2) https://www.youtube.com/watch?v=Mu-GUZuU31A
   GroceryItem newItem;
 
-  stream >> std::quoted( newItem._upcCode, '"' )
+  stream >> std::quoted( newItem._upcCode )
       >> delimiter
-      >> std::quoted( newItem._brandName, '"' )
+      >> std::quoted( newItem._brandName )
       >> delimiter
-      >> std::quoted( newItem._productName, '"' )
+      >> std::quoted( newItem._productName )
       >> delimiter
       >> newItem._price;
+
+  groceryItem = std::move( newItem );
 
   return stream;
   /////////////////////// END-TO-DO (21) ////////////////////////////

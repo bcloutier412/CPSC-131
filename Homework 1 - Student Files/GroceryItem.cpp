@@ -352,7 +352,8 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
 
 
 // operator==(...)
-bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept {
+bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
+{
     // All attributes must be equal for the two grocery items to be equal to the other.  This can be done in any order, so put the
     // quickest and then the most likely to be different first.
 
@@ -373,8 +374,7 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept {
 *******************************************************************************/
 
 // operator>>(...)
-std::istream &
-operator>>( std::istream & stream, GroceryItem & groceryItem )
+std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 {
   char delimiter = '\x{0000}';  // C++23 delimited escape sequence for the character whose value is zero, i.e., the null character
   ///////////////////////// TO-DO (21) //////////////////////////////

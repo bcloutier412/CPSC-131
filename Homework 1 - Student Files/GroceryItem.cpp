@@ -55,7 +55,7 @@ namespace    // unnamed, anonymous namespace
 GroceryItem::GroceryItem( std::string productName, std::string brandName, std::string upcCode, double price )
 ///////////////////////// TO-DO (2) //////////////////////////////
   /// Copying the parameters into the object's attributes (member variables) "works" but is not correct.  Be sure to move the parameters into the object's attributes
-: _productName{std::move(productName)}, _brandName{std::move(brandName)}, _upcCode{std::move(upcCode)}, _price{std::move(price)} {};
+: _productName(std::move(productName)), _brandName(std::move(brandName)), _upcCode(std::move(upcCode)), _price(std::move(price)) {};
 /////////////////////// END-TO-DO (2) ////////////////////////////
 
 
@@ -345,6 +345,8 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   {
     return std::weak_ordering::greater;
   }
+
+  return std::weak_ordering::equivalent;
   /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 

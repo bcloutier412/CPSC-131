@@ -263,7 +263,7 @@ GroceryItem & GroceryItem::productName( std::string newProductName ) &
 ///////////////////////// TO-DO (18) //////////////////////////////
 GroceryItem & GroceryItem::price( double newPrice ) &
 {
-  _price = std::move( newPrice );
+  _price = newPrice;
   return *this;
 }
 /////////////////////// END-TO-DO (18) ////////////////////////////

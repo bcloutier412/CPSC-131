@@ -10,7 +10,7 @@ int main() {
             << "   enclose string entries in quotes, separate fields with comas\n"
             << "   for example:  \" 00016000306707 \", \" Betty Crocker \", \" Betty Crocker Double Chocolate Chunk Cookie Mix \", 17.19\n"
             << "   Enter CTL-Z (Windows) or CTL-D (Linux) to quit\n";
-  std::cout << std::endl;
+  std::cout << "\n";
 
   // Vector of grocery items
   std::vector<std::unique_ptr<GroceryItem>> groceryItems{};
@@ -36,9 +36,9 @@ int main() {
   // Print out the groceryItems vector in reverse
   std::cout << "Here is an itemized list of the items in your shopping cart:\n";
 
-  for( std::vector<std::unique_ptr<GroceryItem>>::reverse_iterator it = groceryItems.rbegin(); it != groceryItems.rend(); ++it)
+  for( auto it = groceryItems.rbegin(); it != groceryItems.rend(); ++it)
   {
-    std::cout << *(*it) << std::endl;
+    std::cout << *(*it) << "\n";
   }
 
   return 0;

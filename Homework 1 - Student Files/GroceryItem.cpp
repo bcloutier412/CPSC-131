@@ -395,7 +395,6 @@ operator>>( std::istream & stream, GroceryItem & groceryItem )
     ///        1) https://en.cppreference.com/w/cpp/io/manip/quoted
     ///        2) https://www.youtube.com/watch?v=Mu-GUZuU31A
   GroceryItem newItem;
-
   stream >> std::quoted( newItem._upcCode )
       >> delimiter
       >> std::quoted( newItem._brandName )

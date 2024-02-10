@@ -124,7 +124,7 @@ GroceryItem & GroceryItem::operator=( GroceryItem && rhs ) & noexcept
 
 // Destructor
 ///////////////////////// TO-DO (7) //////////////////////////////
-GroceryItem::~GroceryItem() noexcept {}
+GroceryItem::~GroceryItem() noexcept = default;
 /////////////////////// END-TO-DO (7) ////////////////////////////
 
 
@@ -313,35 +313,35 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   {
     return std::weak_ordering::less;
   }
-  else if ( _upcCode > rhs._upcCode )
+  if ( _upcCode > rhs._upcCode )
   {
     return std::weak_ordering::greater;
   }
-  else if ( _productName < rhs._productName )
+  if ( _productName < rhs._productName )
   {
     return std::weak_ordering::less;
   }
-  else if( _productName > rhs._productName )
+  if( _productName > rhs._productName )
   {
     return std::weak_ordering::greater;
   }
-  else if( _brandName < rhs._brandName )
+  if( _brandName < rhs._brandName )
   {
     return std::weak_ordering::less;
   }
-  else if( _brandName > rhs._brandName )
+  if( _brandName > rhs._brandName )
   {
     return std::weak_ordering::greater;
   }
-  else if( floating_point_is_equal( _price, rhs._price ) )
+  if( floating_point_is_equal( _price, rhs._price ) )
   {
     return std::weak_ordering::equivalent;
   }
-  else if( _price < rhs._price )
+  if( _price < rhs._price )
   {
     return std::weak_ordering::less;
   }
-  else if( _price > rhs._price )
+  if( _price > rhs._price )
   {
     return std::weak_ordering::greater;
   }

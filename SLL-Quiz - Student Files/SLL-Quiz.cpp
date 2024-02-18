@@ -56,21 +56,13 @@ struct SLL
     }
     else // If we are inserting not at the beginning
     {
-      Node * currNode = _head;
+      newNode->_next = position->_next;
+      position->_next = newNode;
 
-      // Iterate through the list until we get to the position
-      while (currNode != position)
-      {
-        currNode       = currNode->_next;
-      }
-
-      // If we are adding to the end then we have to move the tail
-      if (currNode->_next == nullptr)
+      if (position == _tail)
       {
         _tail = newNode;
       }
-      newNode->_next = currNode->_next;
-      currNode->_next = newNode;
     }
     _size++;
     return newNode;

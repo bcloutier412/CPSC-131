@@ -1,0 +1,33 @@
+  _head -> Ø
+  _tail -> Ø
+  _size =  0
+
+
+  _head -> {20, 0x000000000000} -> Ø
+             (0xaaaac133e2c0)        
+  _tail -> {20, 0x000000000000}
+             (0xaaaac133e2c0)
+  _size =  1
+
+
+  _head -> {10, 0xaaaac133e2c0} -> {20, 0x000000000000} -> Ø
+             (0xaaaac133e360)        (0xaaaac133e2c0)        
+  _tail -> {20, 0x000000000000}
+             (0xaaaac133e2c0)
+  _size =  2
+
+
+  _head -> {10, 0xaaaac133e2c0} -> {20, 0xaaaac133e380} -> {40, 0x000000000000} -> Ø
+             (0xaaaac133e360)        (0xaaaac133e2c0)        (0xaaaac133e380)        
+  _tail -> {40, 0x000000000000}
+             (0xaaaac133e380)
+  _size =  3
+
+
+  _head -> {10, 0xaaaac133e3a0} -> {30, 0xaaaac133e2c0} -> {20, 0xaaaac133e380} -> {40, 0x000000000000} -> Ø
+             (0xaaaac133e360)        (0xaaaac133e3a0)        (0xaaaac133e2c0)        (0xaaaac133e380)        
+  _tail -> {40, 0x000000000000}
+             (0xaaaac133e380)
+  _size =  4
+
+

@@ -103,7 +103,7 @@ std::size_t GroceryList::size() const
   ///////////////////////// TO-DO (1) //////////////////////////////
     /// All the containers are the same size, so pick one and return the size of that.  Since the forward_list has to calculate the
     /// size on demand, stay away from using that one.
-
+  return _gList_array_size;
   /////////////////////// END-TO-DO (1) ////////////////////////////
 }
 
@@ -134,7 +134,16 @@ std::size_t GroceryList::find( const GroceryItem & groceryItem ) const
     /// does not exist, return the size of this grocery list as an indicator the grocery item does not exist.  The grocery item will
     /// be in the same position in all the containers (array, vector, list, and forward_list) so pick just one of those to search.
     /// The STL provides the find() function that is a perfect fit here, but you may also write your own loop.
+  std::size_t containerSize = size();
+  for( std::size_t i = 0; i < containerSize; ++i )
+  {
+    if (groceryItem == _gList_vector[i])
+    {
+      return i;
+    }
+  }
 
+  return containerSize;
   /////////////////////// END-TO-DO (2) ////////////////////////////
 }
 
@@ -182,6 +191,11 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
     /// Remember, you already have a function that tells you if the to-be-inserted grocery item is already in the list, so use it.
     /// Don't implement it again.
 
+  // Check to see if the grocery Item already exists
+  if (find(groceryItem) != size())
+  {
+    return;
+  }
   /////////////////////// END-TO-DO (3) ////////////////////////////
 
 
@@ -207,7 +221,23 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
       /// Open a hole to insert new grocery item by shifting to the right everything at and after the insertion point.
       /// For example:  a[8] = a[7];  a[7] = a[6];  a[6] = a[5];  and so on.
       /// std::shift_* will be helpful, or write your own loop.
+    // Check that there is space in the array
+    if( size() == _gList_array.size() ) throw CapacityExceeded_Ex( make_details( "No more available space in the array" ) );
 
+    // 9must shift elements to the right
+    if (offsetFromTop < size())
+    {
+      for( int i = size() - 1; i >= offsetFromTop; --i)
+      {
+        _gList_array[i + 1] = _gList_array[i];
+      }
+    }
+
+    // Insert into the array at the open spot
+    _gList_array[offsetFromTop] = groceryItem;
+
+    // Increment the array size
+    _gList_array_size++;
     /////////////////////// END-TO-DO (4) ////////////////////////////
   } // Part 1 - Insert into array
 
@@ -224,7 +254,8 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
       ///
       /// Behind the scenes, std::vector::insert() shifts to the right everything at and after the insertion point, just like you
       /// did for the array above.
-
+    auto iterator = std::next( _gList_vector.begin(), offsetFromTop );
+    _gList_vector.insert( iterator, groceryItem );
     /////////////////////// END-TO-DO (5) ////////////////////////////
   } // Part 2 - Insert into vector
 
@@ -237,7 +268,8 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
       /// takes a pointer (or more accurately, an iterator) that points to the grocery item to insert before.  You need to convert
       /// the zero-based offset from the top (the index) to an iterator by advancing _gList_dll.begin() offsetFromTop times.  The
       /// STL has a function called std::next() that does that, or you can write your own loop.
-
+    auto iterator = std::next( _gList_dll.begin(), offsetFromTop );
+    _gList_dll.insert( iterator, groceryItem );
     /////////////////////// END-TO-DO (6) ////////////////////////////
   } // Part 3 - Insert into doubly linked list
 
@@ -251,7 +283,8 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
       /// look backwards, only forward.  You need to convert the zero-based offset from the top (the index) to an iterator by
       /// advancing _gList_sll.before_begin() offsetFromTop times.  The STL has a function called std::next() that does that, or you
       /// can write your own loop.
-
+    // auto iterator = std::next( _gList_sll.begin(), offsetFromTop );
+    // _gList_sll.insert( iterator, groceryItem );
     /////////////////////// END-TO-DO (7) ////////////////////////////
   } // Part 4 - Insert into singly linked list
 

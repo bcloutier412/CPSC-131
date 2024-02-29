@@ -117,7 +117,9 @@
     "__bit_reference": "cpp",
     "__config": "cpp",
     "__locale": "cpp",
-    "__verbose_abort": "cpp"
+    "__verbose_abort": "cpp",
+    "__hash_table": "cpp",
+    "__split_buffer": "cpp"
   }
   /* See User Settings in Linux: ~/.config/Code/User/settings.json, Windows: %APPDATA%\Code\User\settings.json, WSL: ~/.vscode-server/data/Machine/settings.json */
 }

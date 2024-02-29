@@ -33,7 +33,6 @@ namespace
 
 
 
-
     // My roommate also has a grocery list
     GroceryList roommatesList = { { "potato chips", "Ruffles"    },
                                   { "potato chips", "Frito Lays" },
@@ -45,7 +44,6 @@ namespace
 
     // Let's combine the lists (if different) and go shopping
     if( thingsToBuy != roommatesList ) thingsToBuy += roommatesList;
-
 
     // Oops, forgot butter.  Let's add that right before bread.
     thingsToBuy.insert( { "butter", "Lakes 'Ole" }, thingsToBuy.find( { "bread" } ) );

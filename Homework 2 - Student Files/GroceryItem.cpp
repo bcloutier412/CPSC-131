@@ -351,9 +351,8 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
 // operator>>(...)
 std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 {
-  GroceryItem workingItem;
-  char        delimiter = '\x{0000}';    // C++23 delimited escape sequence for the character whose value is zero, i.e., the null character
-                                         ///////////////////////// TO-DO (21) //////////////////////////////
+  char delimiter = '\x{0000}';  // C++23 delimited escape sequence for the character whose value is zero, i.e., the null character
+  ///////////////////////// TO-DO (21) //////////////////////////////
     /// A lot can go wrong when reading from streams - no permission, wrong types, end of file, etc. Minimal exception guarantee says
     /// there should be no side effects if an error or exception occurs, so let's do our work in a local object and move it into place
     /// at the end if all goes well.
@@ -370,6 +369,7 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
     /// Hint:  Use std::quoted to read and write quoted strings.  See
     ///        1) https://en.cppreference.com/w/cpp/io/manip/quoted
     ///        2) https://www.youtube.com/watch?v=Mu-GUZuU31A
+    GroceryItem workingItem;
     if (stream >> std::ws >> std::quoted(workingItem._upcCode) && stream >> std::ws >> delimiter && delimiter == ',' &&
         stream >> std::ws >> std::quoted(workingItem._brandName) && stream >> std::ws >> delimiter && delimiter == ',' &&
         stream >> std::ws >> std::quoted(workingItem._productName) && stream >> std::ws >> delimiter && delimiter == ',' &&

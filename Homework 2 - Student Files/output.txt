@@ -1,0 +1,146 @@
+My Grocery List
+    0:  "",  "",  "eggs",  0
+    1:  "",  "",  "milk",  0
+    2:  "",  "",  "hot dogs",  0
+    3:  "",  "",  "bread",  0
+
+My roommate's Grocery List
+    0:  "",  "Ruffles",  "potato chips",  0
+    1:  "",  "Frito Lays",  "potato chips",  0
+    2:  "",  "Bud Lite",  "beer",  0
+    3:  "",  "",  "eggs",  0
+    4:  "",  "",  "pretzels",  0
+
+Combined Grocery Lists
+    0:  "",  "",  "eggs",  0
+    1:  "",  "",  "milk",  0
+    2:  "",  "",  "hot dogs",  0
+    3:  "",  "Lakes 'Ole",  "butter",  0
+    4:  "",  "",  "bread",  0
+    5:  "",  "",  "bananas",  0
+    6:  "",  "",  "apples",  0
+    7:  "",  "Ruffles",  "potato chips",  0
+    8:  "",  "Frito Lays",  "potato chips",  0
+    9:  "",  "",  "pretzels",  0
+
+
+Expected results:
+    0:  "",  "",  "eggs",  0
+    1:  "",  "",  "milk",  0
+    2:  "",  "",  "hot dogs",  0
+    3:  "",  "Lakes 'Ole",  "butter",  0
+    4:  "",  "",  "bread",  0
+    5:  "",  "",  "bananas",  0
+    6:  "",  "",  "apples",  0
+    7:  "",  "Ruffles",  "potato chips",  0
+    8:  "",  "Frito Lays",  "potato chips",  0
+    9:  "",  "",  "pretzels",  0
+
+
+Actual results:  
+    0:  "",  "",  "eggs",  0
+    1:  "",  "",  "milk",  0
+    2:  "",  "",  "hot dogs",  0
+    3:  "",  "Lakes 'Ole",  "butter",  0
+    4:  "",  "",  "bread",  0
+    5:  "",  "",  "bananas",  0
+    6:  "",  "",  "apples",  0
+    7:  "",  "Ruffles",  "potato chips",  0
+    8:  "",  "Frito Lays",  "potato chips",  0
+    9:  "",  "",  "pretzels",  0
+
+
+Test results:    PASS
+Initial Party List: 
+    0:  "",  "",  "Soda",  0
+    1:  "",  "",  "Chips",  0
+    2:  "",  "",  "Pizza",  0
+    3:  "",  "",  "Ice cream",  0
+
+Added dips to the list: 
+    0:  "",  "",  "Soda",  0
+    1:  "",  "",  "Chips",  0
+    2:  "",  "",  "Pizza",  0
+    3:  "",  "",  "Ice cream",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+
+Added drinks to the list: 
+    0:  "",  "",  "Soda",  0
+    1:  "",  "",  "Chips",  0
+    2:  "",  "",  "Pizza",  0
+    3:  "",  "",  "Ice cream",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+    6:  "",  "",  "Vodka",  0
+    7:  "",  "",  "Beer",  0
+
+Added cups to the list: 
+    0:  "",  "",  "Soda",  0
+    1:  "",  "",  "Chips",  0
+    2:  "",  "",  "Pizza",  0
+    3:  "",  "",  "Ice cream",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+    6:  "",  "",  "Cups",  0
+    7:  "",  "",  "Vodka",  0
+    8:  "",  "",  "Beer",  0
+
+We need some water!!
+
+Updated List: 
+    0:  "",  "",  "Soda",  0
+    1:  "",  "",  "Chips",  0
+    2:  "",  "",  "Pizza",  0
+    3:  "",  "",  "Nacho Dip",  0
+    4:  "",  "",  "Salsa",  0
+    5:  "",  "",  "Cups",  0
+    6:  "",  "",  "Vodka",  0
+    7:  "",  "",  "Beer",  0
+    8:  "",  "",  "Water",  0
+
+Moved water to the top: 
+    0:  "",  "",  "Water",  0
+    1:  "",  "",  "Soda",  0
+    2:  "",  "",  "Chips",  0
+    3:  "",  "",  "Pizza",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+    6:  "",  "",  "Cups",  0
+    7:  "",  "",  "Vodka",  0
+    8:  "",  "",  "Beer",  0
+
+Removed Beer: 
+    0:  "",  "",  "Water",  0
+    1:  "",  "",  "Soda",  0
+    2:  "",  "",  "Chips",  0
+    3:  "",  "",  "Pizza",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+    6:  "",  "",  "Cups",  0
+    7:  "",  "",  "Vodka",  0
+
+Joe forgot some stuff on his list we gotta ask someone else
+
+Samanthas List: 
+    0:  "",  "",  "Water",  0
+    1:  "",  "",  "Soda",  0
+    2:  "",  "",  "Chips",  0
+    3:  "",  "",  "Pizza",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+    6:  "",  "",  "Cups",  0
+    7:  "",  "",  "Vodka",  0
+
+Our Party List: 
+    0:  "",  "",  "Water",  0
+    1:  "",  "",  "Soda",  0
+    2:  "",  "",  "Chips",  0
+    3:  "",  "",  "Pizza",  0
+    4:  "",  "",  "Nacho Dip",  0
+    5:  "",  "",  "Salsa",  0
+    6:  "",  "",  "Cups",  0
+    7:  "",  "",  "Vodka",  0
+
+We are good to go!
+

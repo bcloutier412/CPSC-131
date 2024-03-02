@@ -326,6 +326,7 @@ void GroceryList::remove( std::size_t offsetFromTop )
 
   if( offsetFromTop >= size() )   return;                                           // no change occurs if (zero-based) offsetFromTop >= size()
 
+
   { /**********  Part 1 - Remove from array  ***********************/
     ///////////////////////// TO-DO (8) //////////////////////////////
       /// Hint:  "Vector.hpp" in our Sequence Container Implementation Examples shows you how to do this.  (wink wink)
@@ -353,6 +354,7 @@ void GroceryList::remove( std::size_t offsetFromTop )
     _gList_array_size--;
     /////////////////////// END-TO-DO (8) ////////////////////////////
   } // Part 1 - Remove from array
+
 
 
 
@@ -409,6 +411,7 @@ void GroceryList::remove( std::size_t offsetFromTop )
 
     /////////////////////// END-TO-DO (11) ////////////////////////////
   } // Part 4 - Remove from singly linked list
+
 
   // Verify the internal grocery list state is still consistent amongst the four containers
   if( !containersAreConsistant() )   throw GroceryList::InvalidInternalState_Ex( make_details( "Container consistency error" ) );
@@ -493,6 +496,7 @@ GroceryList & GroceryList::operator+=( const GroceryList & rhs )
 std::weak_ordering GroceryList::operator<=>( GroceryList const & rhs ) const
 {
   if( !containersAreConsistant() || !rhs.containersAreConsistant() ) throw GroceryList::InvalidInternalState_Ex( make_details( "Container consistency error" ) );
+
   ///////////////////////// TO-DO (15) //////////////////////////////
     /// Find the common extent.  That is, if one list has 20 grocery items, and the other has only 13, then the common extent is 13
     /// grocery items. We can compare only the first 13 grocery items of each list.  Find the first grocery item in the common
@@ -526,6 +530,7 @@ std::weak_ordering GroceryList::operator<=>( GroceryList const & rhs ) const
 bool GroceryList::operator==( GroceryList const & rhs ) const
 {
   if( !containersAreConsistant() || !rhs.containersAreConsistant() )   throw GroceryList::InvalidInternalState_Ex( make_details( "Container consistency error" ) );
+
   ///////////////////////// TO-DO (16) //////////////////////////////
   /// Two lists are different if their sizes are different, or one of their grocery items is different.  Otherwise the lists are
   /// equal.
@@ -649,8 +654,24 @@ std::istream & operator>>( std::istream & stream, GroceryList & groceryList )
 
   ///////////////////////// TO-DO (18) //////////////////////////////
     /// Extract until end of file grocery items from the provided stream and insert them at the bottom of the provided grocery list.
-    /// Be sure to extract grocery items and not individual fields such as product name or UPC.
+    /// Be sure to  extract grocery items and not individual fields such as product name or UPC.
+  GroceryItem tempGroceryItem{};
+  char        delimiter = '\x{0000}';
 
+  std::string upcCode, brandName, productName;
+  double      price = 0.0;
+
+  while(stream >> std::ws >> std::quoted(upcCode) && stream >> std::ws >> delimiter && delimiter == ',' &&
+        stream >> std::ws >> std::quoted(brandName) && stream >> std::ws >> delimiter && delimiter == ',' &&
+        stream >> std::ws >> std::quoted(productName) && stream >> std::ws >> delimiter && delimiter == ',' &&
+        stream >> std::ws >> price )
+  {
+    tempGroceryItem.productName( productName );
+    tempGroceryItem.brandName( brandName );
+    tempGroceryItem.upcCode( upcCode );
+    tempGroceryItem.price( price );
+    groceryList.insert( tempGroceryItem, groceryList.size() );
+  }
   /////////////////////// END-TO-DO (18) ////////////////////////////
 
   return stream;

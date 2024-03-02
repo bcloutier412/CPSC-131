@@ -33,6 +33,7 @@ namespace
 
 
 
+
     // My roommate also has a grocery list
     GroceryList roommatesList = { { "potato chips", "Ruffles"    },
                                   { "potato chips", "Frito Lays" },
@@ -44,6 +45,7 @@ namespace
 
     // Let's combine the lists (if different) and go shopping
     if( thingsToBuy != roommatesList ) thingsToBuy += roommatesList;
+
 
     // Oops, forgot butter.  Let's add that right before bread.
     thingsToBuy.insert( { "butter", "Lakes 'Ole" }, thingsToBuy.find( { "bread" } ) );
@@ -116,6 +118,46 @@ int main()
      /// several (more than two) lists. Have some fun with it!  The purpose is to show me you, as a GroceryList class consumer
      /// (i.e., the client) understand how to *use* the GroceryList.
 
+    // Initialize party List
+    GroceryList partyList = { { "Soda"      },
+                              { "Chips"     },
+                              { "Pizza"     },
+                              { "Ice cream" } };
+
+    // Print Out initial List
+    std::cout << "Initial Party List: " << partyList << "\n\n";
+
+    // Forgot to add dip
+    partyList += { { "Nacho Dip" },
+                   { "Salsa"     } };
+
+    std::cout << "added dips to the list: " << partyList << "\n\n";
+
+
+    // Friend made drinks list
+    GroceryList drinksList = { { "Vodka"  },
+                               { "Beer"   } };
+
+    // Added drinks list to party list
+    partyList += drinksList;
+
+    std::cout << "Added drinks to the list: " << partyList << "\n\n";
+
+    // We need cups for the drinks
+    partyList.insert( { "Cups" }, partyList.find( { "Vodka" } ) );
+
+    std::cout << "Added drinks to the list: " << partyList << "\n\n";
+
+    // We need water
+    partyList.insert( { "Water" }, GroceryList::Position::BOTTOM );
+
+    // Need Pasta
+    partyList.insert( { "Pasta" }, GroceryList::Position::TOP );
+
+    // Who brings pasta to a part
+    partyList.remove( { "Pasta" } );
+
+    std::cout << "Updated List: " << partyList << "\n\n";
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 

@@ -135,7 +135,7 @@ int main()
 
 
     // Friend made drinks list
-    GroceryList drinksList = { { "Vodka"  },
+    const GroceryList drinksList = { { "Vodka"  },
                                { "Beer"   } };
 
     // Added drinks list to party list
@@ -179,7 +179,7 @@ int main()
     std::cout << "Removed Beer: " << partyList << "\n\n";
 
     // Joe made a list to double check
-    GroceryList joesPartyList = { { "Vodka"   },
+    const GroceryList joesPartyList = { { "Vodka"   },
                                   { "Beer"    },
                                   { "Wine"    },
                                   { "Chasers" } };

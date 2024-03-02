@@ -134,7 +134,7 @@ std::size_t GroceryList::find( const GroceryItem & groceryItem ) const
   /// does not exist, return the size of this grocery list as an indicator the grocery item does not exist.  The grocery item will
   /// be in the same position in all the containers (array, vector, list, and forward_list) so pick just one of those to search.
   /// The STL provides the find() function that is a perfect fit here, but you may also write your own loop.
-  std::size_t containerSize = size();
+  const std::size_t containerSize = size();
   for( std::size_t i = 0; i < containerSize; ++i )
   {
     if (groceryItem == _gList_vector[i])
@@ -228,17 +228,14 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
     // must shift elements to the right
     if (offsetFromTop < size())
     {
-      for( std::size_t i = size(); i > offsetFromTop; --i )
-      {
-        _gList_array[i] = _gList_array[i - 1];
-      }
+      std::shift_right( _gList_array.begin() + offsetFromTop, _gList_array.begin() + size() + 1, 1 );
     }
 
     // Insert into the array at the open spot
-    _gList_array[offsetFromTop] = groceryItem;
+    _gList_array[offsetFromTop] = std::move(groceryItem);
 
     // Increment the array size
-    _gList_array_size++;
+    ++_gList_array_size;
     /////////////////////// END-TO-DO (4) ////////////////////////////
   }    // Part 1 - Insert into array
 
@@ -284,19 +281,8 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
       /// look backwards, only forward.  You need to convert the zero-based offset from the top (the index) to an iterator by
       /// advancing _gList_sll.before_begin() offsetFromTop times.  The STL has a function called std::next() that does that, or you
       /// can write your own loop.
-    if (_gList_sll.empty() || offsetFromTop == 0)
-    {
-      _gList_sll.push_front( groceryItem );
-    }
-    else
-    {
-      auto iterator = _gList_sll.begin();
-      for( std::size_t i = 0; i < offsetFromTop - 1; ++i)
-      {
-        iterator++;
-      }
-      _gList_sll.insert_after( iterator, groceryItem );
-    }
+    auto iterator = std::next( _gList_sll.before_begin(), offsetFromTop );
+    _gList_sll.insert_after( iterator, groceryItem );
     /////////////////////// END-TO-DO (7) ////////////////////////////
   } // Part 4 - Insert into singly linked list
 
@@ -337,21 +323,11 @@ void GroceryList::remove( std::size_t offsetFromTop )
       ///
       /// std::shift_* will be helpful, or write your own loop.  Also remember that you must keep track of the number of valid
       /// grocery items in your array, so don't forget to adjust _gList_array_size.
-    std::size_t arraySize = size();
-    if (offsetFromTop == arraySize - 1)
-    {
-      _gList_array[offsetFromTop] = GroceryItem{};
-    }
-    else
-    {
-      for( std::size_t i = offsetFromTop; i < arraySize - 1; ++i )
-      {
-        _gList_array[i] = _gList_array[i + 1];
-        _gList_array[i + 1] = GroceryItem{};
-      }
-    }
 
-    _gList_array_size--;
+    std::shift_left( _gList_array.begin() + offsetFromTop, _gList_array.begin() + _gList_array_size, 1 );
+
+    _gList_array[_gList_array_size - 1] = GroceryItem{};
+    --_gList_array_size;
     /////////////////////// END-TO-DO (8) ////////////////////////////
   } // Part 1 - Remove from array
 
@@ -398,17 +374,8 @@ void GroceryList::remove( std::size_t offsetFromTop )
       /// advancing _gList_sll.before_begin() offsetFromTop times.  The STL has a function called std::next() that does that, or you
       /// can write your own loop.
     // If we are removing the first element then just pop the front
-    if( offsetFromTop == 0 )
-    {
-      _gList_sll.pop_front();
-    }
-    else
-    {
-      auto iterator = _gList_sll.begin();
-      for( std::size_t i = 0; i < offsetFromTop - 1; ++i ) iterator++;
-      _gList_sll.erase_after( iterator );
-    }
-
+    auto iterator = std::next( _gList_sll.before_begin(), offsetFromTop );
+    _gList_sll.erase_after( iterator );
     /////////////////////// END-TO-DO (11) ////////////////////////////
   } // Part 4 - Remove from singly linked list
 
@@ -425,11 +392,12 @@ void GroceryList::moveToTop( const GroceryItem & groceryItem )
   ///////////////////////// TO-DO (12) //////////////////////////////
     /// If the grocery item exists, then remove and reinsert it.  Otherwise, do nothing.
     /// Remember, you already have functions to do all this.
-  if (find(groceryItem) != size()) {
-    remove( groceryItem );
+  std::size_t searchResult = find( groceryItem );
+  if( searchResult != size() )
+  {
+    remove( searchResult );
     insert( groceryItem, Position::TOP );
   }
-  return;
   /////////////////////// END-TO-DO (12) ////////////////////////////
 }
 
@@ -506,7 +474,7 @@ std::weak_ordering GroceryList::operator<=>( GroceryList const & rhs ) const
     ///
     ///
     /// The content of all the grocery lists's containers is the same - so pick an easy one to walk.
-  std::size_t commonExtent = std::min( _gList_array_size, rhs._gList_array_size );
+  const std::size_t commonExtent = std::min( _gList_array_size, rhs._gList_array_size );
 
   // Iterate through the common extent and look for the first item that is different and compare and return the outcome of the threeway comparison
   for (std::size_t i = 0; i < commonExtent; ++i)
@@ -656,21 +624,10 @@ std::istream & operator>>( std::istream & stream, GroceryList & groceryList )
     /// Extract until end of file grocery items from the provided stream and insert them at the bottom of the provided grocery list.
     /// Be sure to  extract grocery items and not individual fields such as product name or UPC.
   GroceryItem tempGroceryItem{};
-  char        delimiter = '\x{0000}';
 
-  std::string upcCode, brandName, productName;
-  double      price = 0.0;
-
-  while(stream >> std::ws >> std::quoted(upcCode) && stream >> std::ws >> delimiter && delimiter == ',' &&
-        stream >> std::ws >> std::quoted(brandName) && stream >> std::ws >> delimiter && delimiter == ',' &&
-        stream >> std::ws >> std::quoted(productName) && stream >> std::ws >> delimiter && delimiter == ',' &&
-        stream >> std::ws >> price )
+  while(stream >> tempGroceryItem)
   {
-    tempGroceryItem.productName( productName );
-    tempGroceryItem.brandName( brandName );
-    tempGroceryItem.upcCode( upcCode );
-    tempGroceryItem.price( price );
-    groceryList.insert( tempGroceryItem, groceryList.size() );
+    groceryList.insert( tempGroceryItem, GroceryList::Position::BOTTOM );
   }
   /////////////////////// END-TO-DO (18) ////////////////////////////
 

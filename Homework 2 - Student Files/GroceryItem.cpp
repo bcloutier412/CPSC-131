@@ -316,7 +316,7 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
 
   if ( floating_point_is_equal( _price, rhs._price ) ) return std::weak_ordering::equivalent;
   if ( _price < rhs._price )                           return std::weak_ordering::less;
-  else                                                 return std::weak_ordering::greater;
+  return std::weak_ordering::greater;
   /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 

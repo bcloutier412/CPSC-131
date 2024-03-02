@@ -131,7 +131,7 @@ int main()
     partyList += { { "Nacho Dip" },
                    { "Salsa"     } };
 
-    std::cout << "added dips to the list: " << partyList << "\n\n";
+    std::cout << "Added dips to the list: " << partyList << "\n\n";
 
 
     // Friend made drinks list
@@ -143,21 +143,86 @@ int main()
 
     std::cout << "Added drinks to the list: " << partyList << "\n\n";
 
-    // We need cups for the drinks
+    // We need cups for the drinks so lets by it before
     partyList.insert( { "Cups" }, partyList.find( { "Vodka" } ) );
 
-    std::cout << "Added drinks to the list: " << partyList << "\n\n";
+    std::cout << "Added cups to the list: " << partyList << "\n\n";
 
-    // We need water
-    partyList.insert( { "Water" }, GroceryList::Position::BOTTOM );
+
+    // Check if we have water if we dont add water to the list
+    if (partyList.find( { "Water" } ) == partyList.size())
+    {
+      std::cout << "We need some water!!\n\n";
+      // We need water
+      partyList.insert( { "Water" }, GroceryList::Position::BOTTOM );
+    }
 
     // Need Pasta
     partyList.insert( { "Pasta" }, GroceryList::Position::TOP );
 
-    // Who brings pasta to a part
+    // Who brings pasta to a party
     partyList.remove( { "Pasta" } );
 
+    // I dont think we need Ice cream
+    partyList.remove( partyList.find( { "Ice cream" } ) );
+
     std::cout << "Updated List: " << partyList << "\n\n";
+
+    // Water is the most important so lets move it to the top
+    partyList.moveToTop( { "Water" } );
+
+    std::cout << "Moved water to the top: " << partyList << "\n\n";
+
+    // I don't think I have enough money for everything on the list. Lets get rid of some of the stuff at the bottom
+    partyList.remove( { "Beer" } );
+
+    std::cout << "Removed Beer: " << partyList << "\n\n";
+
+    // Joe made a list to double check
+    GroceryList joesPartyList = { { "Vodka"   },
+                                  { "Beer"    },
+                                  { "Wine"    },
+                                  { "Chasers" } };
+    auto        comparisonResult = partyList <=> joesPartyList;
+
+    // Compare the lists
+    if (comparisonResult < 0)
+    {
+      std::cout << "We need to add more items to the party list\n\n";
+    }
+    else if (comparisonResult > 0)
+    {
+      std::cout << "Joe forgot some stuff on his list we gotta ask someone else\n\n";
+    }
+    else
+    {
+      std::cout << "We are good to go\n\n";
+    }
+
+    // Samanthas list
+    std::istringstream samanthasListStream( R"( "",   "",  "Water",      0.0
+                                                "",   "",  "Soda",       0.0
+                                                "",   "",  "Chips",      0.0
+                                                "",   "",  "Pizza",      0.0
+                                                "",   "",  "Nacho Dip",  0.0
+                                                "",   "",  "Salsa",      0.0
+                                                "",   "",  "Cups",       0.0
+                                                "",   "",  "Vodka",      0.0 )"
+                                             );
+
+    GroceryList samanthasList;
+    samanthasListStream >> samanthasList;
+
+    std::cout << "Samanthas List: " << samanthasList << "\n\n";
+    std::cout << "Our Party List: " << partyList << "\n\n";
+    if (partyList == samanthasList)
+    {
+      std::cout << "We are good to go!\n\n";
+    }
+    else
+    {
+      std::cout << "Double check the list\n";
+    }
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 

@@ -3,7 +3,11 @@
   /// Hint:  Include what you use, use what you include
   ///
   /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
+#include <filesystem>
+#include <fstream>
 
+#include "GroceryItem.hpp"
+#include "GroceryItemDatabase.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -63,7 +67,12 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   ///////////////////////// TO-DO (2) //////////////////////////////
     /// Hint:  Use your GroceryItem's extraction operator to read GroceryItems, don't reinvent that here.
     ///        Read grocery items until end of file pushing each grocery item into the data store as they're read.
+  GroceryItem tempGroceryItem{};
 
+  while (fin >> tempGroceryItem)
+  {
+    gID_vector.push_back( tempGroceryItem );
+  }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
   // Note:  The file is intentionally not explicitly closed.  The file is closed when fin goes out of scope - for whatever
@@ -89,5 +98,22 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   /// Programming note:  An O(n) operation, like searching an unsorted vector, would not generally be implemented recursively.  The
   ///                    depth of recursion may be greater than the program's function call stack size.  But for this programming
   ///                    exercise, getting familiar with recursion is a goal.
+GroceryItem * GroceryItemDatabase::find( const std::string & upc )
+{
+  return find( gID_vector.begin(), upc );
+}
 
+GroceryItem * GroceryItemDatabase::find( std::vector<GroceryItem>::iterator current, const std::string & upc )
+{
+  if( current == gID_vector.end() ) return nullptr;
+
+  if( current->upcCode() == upc ) return &( *current );
+
+  return find( ++current, upc );
+}
+
+std::size_t GroceryItemDatabase::size() const
+{
+  return gID_vector.size();
+}
 /////////////////////// END-TO-DO (3) ////////////////////////////

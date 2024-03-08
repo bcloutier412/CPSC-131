@@ -5,7 +5,11 @@
   /// Hint:  Include what you use, use what you include
   ///
   /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
+#include <cstddef>
+#include <string>
+#include <vector>
 
+#include "GroceryItem.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -32,5 +36,10 @@ class GroceryItemDatabase
       /// Private implementation details
       /// Add any necessary private helper functions, member attributes, etc.
 
+    // Member attributes
+    std::vector<GroceryItem> gID_vector;
+
+    // Helper functions
+    GroceryItem * find( std::vector<GroceryItem>::iterator current, const std::string & upc );
     /////////////////////// END-TO-DO (2) ////////////////////////////
 };

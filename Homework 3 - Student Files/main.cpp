@@ -210,7 +210,7 @@ int main( int argc, char * argv[] )
     ///////////////////////// TO-DO (4) //////////////////////////////
     myCart.push( { "milk", "Happy Cow", "00075457129000" } );
     myCart.push( { "rice krispies", "Kellogg's", "00038000291210" } );
-    myCart.push( {"hotdogs", "Applegate Farms", "00025317533003"} );
+    myCart.push( { "hotdogs", "Applegate Farms", "00025317533003" } );
     myCart.push( { "apple pie", "Johnnys Pies", "09073649000493" } );
     myCart.push( { "bread", "Busty Bread", "00835841005255" } );
     myCart.push( { "eggs", "Organicos", "00688267039317" } );
@@ -235,14 +235,20 @@ int main( int argc, char * argv[] )
     ///////////////////////// TO-DO (6) //////////////////////////////
     /// Create an empty checkout counter as a queue of grocery items and call it checkoutCounter.  Then remove the grocery items
     /// from your working cart and place them on the checkout counter, i.e., put them in this checkoutCounter queue.
-
+    std::queue<GroceryItem> checkoutCounter{};
+    std::size_t workingCartSize = workingCart.size();
+    for( std::size_t i = 0; i < workingCartSize; ++i )
+    {
+      checkoutCounter.push( workingCart.top() );
+      workingCart.pop();
+    }
     /////////////////////// END-TO-DO (6) ////////////////////////////
 
 
 
 
     // Now add it all up and print a receipt
-    double                amountDue         = 0.0;
+    double amountDue = 0.0;
     GroceryItemDatabase & worldWideDatabase = GroceryItemDatabase::instance();              // Get a reference to the world wide database of grocery items. The database
                                                                                             // contains the full description and price of the grocery item.
 
@@ -252,7 +258,22 @@ int main( int argc, char * argv[] )
     /// description and price on the receipt (i.e. write the grocery item's full description and price to standard output).
     /// Otherwise, print a message on the receipt that a description and price for the grocery item wasn't found and there will be
     /// no charge.
-
+    std::size_t checkoutCounterSize = checkoutCounter.size();
+    for( std::size_t i = 0; i < checkoutCounterSize; ++i )
+    {
+      GroceryItem & currentQueueFrontGroceryItem = checkoutCounter.front();
+      GroceryItem * currentGroceryItem      = worldWideDatabase.find( currentQueueFrontGroceryItem.upcCode() );
+      if(currentGroceryItem)
+      {
+        amountDue += currentGroceryItem->price();
+        std::cout << *currentGroceryItem << "\n";
+      }
+      else
+      {
+        std::cout << "\"" << currentQueueFrontGroceryItem.upcCode() << "\" (" << currentQueueFrontGroceryItem.productName() << ") not found, so today is your lucky day - You get it free! Hooray!\n";
+      }
+      checkoutCounter.pop();
+    }
     /////////////////////// END-TO-DO (7) ////////////////////////////
 
 

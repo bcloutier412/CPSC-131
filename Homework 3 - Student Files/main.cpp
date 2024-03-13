@@ -148,6 +148,7 @@ namespace
     {
       carefully_move_grocery_items( quantity - 1, broken_cart, spare_cart, working_cart );
       working_cart.push( std::move( broken_cart.top() ) );
+      trace( broken_cart, working_cart, spare_cart );
       broken_cart.pop();
       carefully_move_grocery_items( quantity - 1, spare_cart, working_cart, broken_cart );
     }
@@ -165,12 +166,11 @@ namespace
       /// just like they already are in the "from" cart.  That is, call the above carefully_move_grocery_items function to start
       /// moving grocery items recursively.  Call the above trace function just before calling carefully_move_grocery_items to get a
       /// starting point reference in the movement report.
-    std::size_t originalCartSize = from.size();
-    if( originalCartSize )
+    if( !from.empty() )
     {
       std::stack<GroceryItem> spare_cart{};
       trace( from, to, spare_cart );
-      carefully_move_grocery_items( originalCartSize, from, to, spare_cart );
+      carefully_move_grocery_items( from.size(), from, to, spare_cart );
     }
     /////////////////////// END-TO-DO (2) ////////////////////////////
   }
@@ -236,10 +236,10 @@ int main( int argc, char * argv[] )
     /// Create an empty checkout counter as a queue of grocery items and call it checkoutCounter.  Then remove the grocery items
     /// from your working cart and place them on the checkout counter, i.e., put them in this checkoutCounter queue.
     std::queue<GroceryItem> checkoutCounter{};
-    std::size_t workingCartSize = workingCart.size();
+    const std::size_t workingCartSize = workingCart.size();
     for( std::size_t i = 0; i < workingCartSize; ++i )
     {
-      checkoutCounter.push( workingCart.top() );
+      checkoutCounter.push( std::move(workingCart.top()) );
       workingCart.pop();
     }
     /////////////////////// END-TO-DO (6) ////////////////////////////
@@ -258,19 +258,18 @@ int main( int argc, char * argv[] )
     /// description and price on the receipt (i.e. write the grocery item's full description and price to standard output).
     /// Otherwise, print a message on the receipt that a description and price for the grocery item wasn't found and there will be
     /// no charge.
-    std::size_t checkoutCounterSize = checkoutCounter.size();
+    const std::size_t checkoutCounterSize = checkoutCounter.size();
     for( std::size_t i = 0; i < checkoutCounterSize; ++i )
     {
-      GroceryItem & currentQueueFrontGroceryItem = checkoutCounter.front();
-      GroceryItem * currentGroceryItem      = worldWideDatabase.find( currentQueueFrontGroceryItem.upcCode() );
-      if(currentGroceryItem)
+      GroceryItem * currentGroceryItem      = worldWideDatabase.find( checkoutCounter.front().upcCode() );
+      if( currentGroceryItem != nullptr )
       {
         amountDue += currentGroceryItem->price();
-        std::cout << *currentGroceryItem << "\n";
+        std::cout << *currentGroceryItem << '\n';
       }
       else
       {
-        std::cout << "\"" << currentQueueFrontGroceryItem.upcCode() << "\" (" << currentQueueFrontGroceryItem.productName() << ") not found, so today is your lucky day - You get it free! Hooray!\n";
+        std::cout << "\"" << checkoutCounter.front().upcCode() << "\" (" << checkoutCounter.front().productName() << ") not found, so today is your lucky day - You get it free! Hooray!\n";
       }
       checkoutCounter.pop();
     }

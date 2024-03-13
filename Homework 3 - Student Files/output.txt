@@ -4,7 +4,7 @@
 "00025317533003",  "Applegate Farms",  "Hotdog Uncrd Big Apple",  12.57
 "00038000291210",  "Rice Krispies",  "Kellogg's Rice Krispies Cereal",  17.58
 "00075457129000",  "Garelick Farms",  "Garelick Farms Dairy Pure Milk 1% Lowfat",  9.64
--------------------------
+What is your expected amount due?  -------------------------
 Total  $68.32
 
 

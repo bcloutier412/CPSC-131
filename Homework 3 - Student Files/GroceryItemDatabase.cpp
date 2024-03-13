@@ -3,8 +3,12 @@
   /// Hint:  Include what you use, use what you include
   ///
   /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 #include "GroceryItem.hpp"
 #include "GroceryItemDatabase.hpp"
@@ -71,7 +75,7 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
 
   while (fin >> tempGroceryItem)
   {
-    gID_vector.push_back( tempGroceryItem );
+    gID_vector.push_back( std::move(tempGroceryItem) );
   }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 

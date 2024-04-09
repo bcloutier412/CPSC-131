@@ -1,7 +1,16 @@
 ///////////////////////// TO-DO (1) //////////////////////////////
   /// Include necessary header files
   /// Hint:  Include what you use, use what you include
+#include <cstddef>
+#include <filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <string>
 
+#include "GroceryItemDatabase.hpp"
+#include "GroceryStore.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -33,7 +42,12 @@ GroceryStore::GroceryStore( const std::string & persistentInventoryDB )
     ///       See
     ///        1) https://en.cppreference.com/w/cpp/io/manip/quoted
     ///        2) https://www.youtube.com/watch?v=Mu-GUZuU31A
-
+  std::string tempUPC{};
+  unsigned int tempQuantity{};
+  while (fin >> std::ws >> std::quoted(tempUPC) && fin >> std::ws >> tempQuantity)
+  {
+   inventory().insert( { tempUPC, tempQuantity } );
+  }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 }                                                                 // File is closed as fin goes out of scope (RAII)
 
@@ -59,7 +73,12 @@ GroceryStore::GroceryItemsSold GroceryStore::ringUpCustomers( const ShoppingCart
   ///////////////////////// TO-DO (3) //////////////////////////////
     ///  Ring up each customer accumulating the groceries purchased
     ///  Hint:  merge each customer's purchased groceries into today's sales.  (https://en.cppreference.com/w/cpp/container/set/merge)
-
+  for (const auto& shoppingCart : shoppingCarts)
+  {
+    receipt << shoppingCart.first << "'s shopping cart contains:\n";
+    GroceryItemsSold individualSales = ringUpCustomer( shoppingCart.second, receipt );
+    todaysSales.merge( individualSales );
+  }
   /////////////////////// END-TO-DO (3) ////////////////////////////
 
   return todaysSales;
@@ -97,7 +116,27 @@ GroceryStore::GroceryItemsSold GroceryStore::ringUpCustomer( const ShoppingCart 
     ///       2.2.3.1              Decrease the number of items on hand for the item sold
     ///       2.2.3.2              Add the items's UPC to the list of groceries purchased
     ///       3         Print the total amount due on the receipt
+  double amountDue = 0.0;
+  for (const auto& groceryItem : shoppingCart)
+  {
+    GroceryItem * groceryItemInDataBase = worldWideGroceryDatabase.find( groceryItem.first );
+    if( !groceryItemInDataBase )
+    {
+      receipt << " " << std::quoted( groceryItem.first ) << " (" << groceryItem.second.productName() << ") not found, the item is free!\n";
+    }
+    else {
+      receipt << " " << *groceryItemInDataBase << "\n";
+      amountDue += groceryItemInDataBase->price();
+      if (_inventoryDB.contains(groceryItem.first))
+      {
+        _inventoryDB.find( groceryItem.first )->second -= 1;
+        purchasedGroceries.insert( groceryItem.first );
+      }
+    }
+  }
 
+  receipt << " -------------------------\n";
+  receipt << " Total  $" << amountDue << "\n\n";
   /////////////////////// END-TO-DO (4) ////////////////////////////
 
   return purchasedGroceries;
@@ -134,7 +173,36 @@ void GroceryStore::reorderItems( GroceryItemsSold & todaysSales, std::ostream & 
     ///        2       Reset the list of grocery item sold today so the list can be reused again later
     ///
     /// Take special care to avoid excessive searches in your solution
-
+  unsigned int counter = 1;
+  for( const auto & saleUPC : todaysSales )
+  {
+    const auto & inventoryItem = _inventoryDB.find( saleUPC );
+    if (inventoryItem == _inventoryDB.end() || inventoryItem->second < REORDER_THRESHOLD)
+    {
+      const auto & groceryItem = worldWideGroceryDatabase.find( saleUPC );
+      if(groceryItem == nullptr)
+      {
+        reorderReport << std::quoted( saleUPC ) << "\n";
+      }
+      else {
+        std::cout << counter << ":  ";
+        reorderReport << "{" << *groceryItem << "}\n";
+      }
+      if (inventoryItem == _inventoryDB.end())
+      {
+        reorderReport << "        *** no longer sold in this store and will not be re-ordered\n";
+      }
+      else
+      {
+        unsigned int currentInventoryQuantity = inventoryItem->second;
+        reorderReport << "        only " << currentInventoryQuantity << " remain in stock which is " << REORDER_THRESHOLD - currentInventoryQuantity
+                      << " unit(s) below reorder threshold (15), re-ordering " << LOT_COUNT << " more\n";
+        inventoryItem->second += LOT_COUNT;
+      }
+    }
+    counter++;
+  }
+  todaysSales.clear();
   /////////////////////// END-TO-DO (5) ////////////////////////////
 }
 

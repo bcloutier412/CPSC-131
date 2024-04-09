@@ -19,7 +19,7 @@ int main()
     ///////////////////////// TO-DO (1) //////////////////////////////
       /// Create a grocery store
       ///
-
+    GroceryStore myStore{};
     /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -27,7 +27,7 @@ int main()
       /// Now, let's pretend your grocery store is busy with several shoppers, each pushing a shopping cart filled with a bunch of
       /// groceries by using your store's makeShoppingCarts function to create a collection of shopping carts.
       ///
-
+    GroceryStore::ShoppingCarts severalShoppers = myStore.makeShoppingCarts();
     /////////////////////// END-TO-DO (2) ////////////////////////////
 
 
@@ -37,7 +37,7 @@ int main()
       /// scan all the groceries in their shopping cart, print a receipt with an amount due, deduct the items bought from the
       /// store's inventory, and returns a collection of groceries sold.
       ///
-
+    GroceryStore::GroceryItemsSold itemsSold = myStore.ringUpCustomers( severalShoppers );
     /////////////////////// END-TO-DO (3) ////////////////////////////
 
 
@@ -48,7 +48,8 @@ int main()
       /// The store's managers have decided to stop selling Frozen Spanish Omelets (UPC = 00041331092609), so remove this from the
       /// store's inventory.
       ///
-
+    GroceryStore::Inventory_DB & inventory = myStore.inventory();
+    inventory.erase( "00041331092609" );
     /////////////////////// END-TO-DO (4) ////////////////////////////
 
 
@@ -56,7 +57,8 @@ int main()
       /// All the shoppers have now checkout out and it's late in the day.  Close your store, take inventory, and if you sold enough
       /// items to fall below your re-order threshold, order more by using your store's reorderItems function passing the
       /// collection of items sold.
-
+    std::cout << "Re-ordering grocery items the store is running low on.\n\n";
+    myStore.reorderItems( itemsSold );
     /////////////////////// END-TO-DO (5) ////////////////////////////
   }
 

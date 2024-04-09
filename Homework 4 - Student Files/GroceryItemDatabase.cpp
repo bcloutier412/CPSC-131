@@ -3,7 +3,15 @@
   /// Hint:  Include what you use, use what you include
   ///
   /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
+#include <cstddef>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
 
+#include "GroceryItem.hpp"
+#include "GroceryItemDatabase.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -64,7 +72,12 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   ///////////////////////// TO-DO (2) //////////////////////////////
     /// Hint:  Use your GroceryItem's extraction operator to read GroceryItems, don't reinvent that here.
     ///        Read grocery items until end of file pushing each grocery item into the data store as they're read.
+  GroceryItem tempGroceryItem{};
 
+  while (fin >> tempGroceryItem)
+  {
+    _data.insert( { tempGroceryItem.upcCode(), std::move( tempGroceryItem ) } );
+  }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
   // Note:  The file is intentionally not explicitly closed.  The file is closed when fin goes out of scope - for whatever
@@ -86,5 +99,18 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   /// In the last assignment you implemented GroceryItemDatabase::find() as a recursive linear search (an O(n) operation).  In this
   /// assignment, implement GroceryItemDatabase::find() as a binary search (an O(log n) operation) by delegating to the std::map's binary
   /// search function find().
+GroceryItem * GroceryItemDatabase::find( const std::string & upc )
+{
+  std::map<std::string, GroceryItem>::iterator it = _data.find( upc );
+  if( it == _data.end() ) return nullptr;
+  else
+  {
+    return &( it->second );
+  }
+}
 
+std::size_t GroceryItemDatabase::size() const
+{
+  return _data.size();
+};
 /////////////////////// END-TO-DO (3) ////////////////////////////

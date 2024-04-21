@@ -57,7 +57,7 @@ int main()
       /// All the shoppers have now checkout out and it's late in the day.  Close your store, take inventory, and if you sold enough
       /// items to fall below your re-order threshold, order more by using your store's reorderItems function passing the
       /// collection of items sold.
-    std::cout << "Re-ordering grocery items the store is running low on.\n\n";
+    std::cout << "\n\n\n\nRe-ordering grocery items the store is running low on.\n\n";
     myStore.reorderItems( itemsSold );
     /////////////////////// END-TO-DO (5) ////////////////////////////
   }

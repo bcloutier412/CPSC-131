@@ -5,7 +5,10 @@
   /// Hint:  Include what you use, use what you include
   ///
   /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
-
+#include <cstddef>
+#include <iostream>
+#include <string>
+#include <unordered_map>
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 class WordFrequency
@@ -23,6 +26,6 @@ class WordFrequency
     ///////////////////////// TO-DO (2) //////////////////////////////
       /// The class should have a single instance attribute of type std::unordered_map, which is the C++ Standard Library's
       /// implementation of a hash table, to store the association of words (key) to the number of times a word occurs (value).
-
+    std::unordered_map<std::string, std::size_t> _wordMap;
     /////////////////////// END-TO-DO (2) ////////////////////////////
 };

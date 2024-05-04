@@ -3,7 +3,14 @@
   /// Hint:  Include what you use, use what you include
   ///
   /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
+#include <cctype>
+#include <cstddef>
+#include <iostream>
+#include <locale>
+#include <string>
+#include <unordered_map>
 
+#include "WordFrequency.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -43,7 +50,14 @@ namespace
 
 // Implement WordFrequency::WordFrequency( std::istream ) - See requirements
 ///////////////////////// TO-DO (2) //////////////////////////////
-
+WordFrequency::WordFrequency( std::istream & iStream )
+{
+  std::string word{};
+  while( iStream >> word )
+  {
+    _wordMap[sanitize( word )] += 1;
+  }
+}
 /////////////////////// END-TO-DO (2) ////////////////////////////
 
 
@@ -54,7 +68,10 @@ namespace
 
 // Implement WordFrequency::numberOfWords() const - See requirements
 ///////////////////////// TO-DO (3) //////////////////////////////
-
+std::size_t WordFrequency::numberOfWords() const
+{
+  return _wordMap.size();
+}
 /////////////////////// END-TO-DO (3) ////////////////////////////
 
 
@@ -65,7 +82,12 @@ namespace
 
 // Implement WordFrequency::wordCount( const std::string & ) const - See requirements
 ///////////////////////// TO-DO (4) //////////////////////////////
-
+std::size_t WordFrequency::wordCount( const std::string & wordInput) const
+{
+  const auto& wordIt = _wordMap.find( sanitize( wordInput ) );
+  if( wordIt == _wordMap.end() ) return 0;
+  return wordIt->second;
+}
 /////////////////////// END-TO-DO (4) ////////////////////////////
 
 
@@ -76,6 +98,24 @@ namespace
 
 // Implement WordFrequency::mostFrequentWord() const - See requirements
 ///////////////////////// TO-DO (5) //////////////////////////////
+std::string WordFrequency::mostFrequentWord() const
+{
+  std::size_t currentHighestFrequency = 0;
+  const std::string* currentMostFrequentWord = nullptr;
+
+  for ( const auto& word : _wordMap )
+  {
+    if ( word.second > currentHighestFrequency )
+    {
+      currentMostFrequentWord = &word.first;
+      currentHighestFrequency = word.second;
+    }
+  }
+
+  if ( currentMostFrequentWord == nullptr ) return "";
+
+  return *currentMostFrequentWord;
+}
 
 /////////////////////// END-TO-DO (5) ////////////////////////////
 
@@ -88,5 +128,16 @@ namespace
 // Implement WordFrequency::maxBucketSize() const - See requirements
 ///////////////////////// TO-DO (6) //////////////////////////////
   /// Hint: see the unordered_map's bucket interface at https://en.cppreference.com/w/cpp/container/unordered_map
+std::size_t WordFrequency::maxBucketSize() const
+{
+  std::size_t maxBucketSize = 0;
+  for( std::size_t i = 0; i < _wordMap.bucket_count(); ++i )
+  {
+    const std::size_t currentBucketSize = _wordMap.bucket_size( i );
 
+    if ( currentBucketSize > maxBucketSize ) maxBucketSize = currentBucketSize;
+  }
+
+  return maxBucketSize;
+}
 /////////////////////// END-TO-DO (6) ////////////////////////////

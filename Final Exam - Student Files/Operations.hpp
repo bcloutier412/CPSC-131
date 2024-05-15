@@ -305,11 +305,12 @@ struct remove_from_back_of_sll
     if( my_sll.empty() == true ) return;
 
     auto it = my_sll.before_begin();
-    auto next = it;
+    auto next = my_sll.begin();
     ++next;
-    while (next != my_sll.end())
+
+    while( next != my_sll.end() )
     {
-      it = next;
+      ++it;
       ++next;
     }
 
@@ -417,6 +418,9 @@ struct remove_from_bst
       /// Write the lines of code to remove the object from "my_bst" that has a matching key. Remember, attempting to remove an object from
       /// an empty data structure is a logic error.  Include code to avoid that.
     if( my_bst.empty() == true ) return;
+
+    my_bst.erase( object.key() );
+    return;
     /////////////////////// END-TO-DO (15) ////////////////////////////
   }
 
@@ -440,7 +444,10 @@ struct remove_from_hash_table
     ///////////////////////// TO-DO (16) //////////////////////////////
       /// Write the lines of code to remove the object from "my_hash_table" that has a matching key. Remember, attempting to remove an
       /// object from an empty data structure is a logic error.  Include code to avoid that.
+    if( my_hash_table.empty() == true ) return;
 
+    my_hash_table.erase( object.key() );
+    return;
     /////////////////////// END-TO-DO (16) ////////////////////////////
   }
 
@@ -473,7 +480,14 @@ struct search_within_vector
     ///////////////////////// TO-DO (17) //////////////////////////////
       /// Write the lines of code to search for the object within "my_vector" with a key matching "target_key".  Return a pointer to that
       /// object immediately upon finding it, or a null pointer when you know the object is not in the container.
-
+    for (auto &element : my_vector)
+    {
+      if (element.key() == target_key)
+      {
+        return &element;
+      }
+    }
+    return nullptr;
     /////////////////////// END-TO-DO (17) ////////////////////////////
   }
 
@@ -498,7 +512,14 @@ struct search_within_dll
     ///////////////////////// TO-DO (18) //////////////////////////////
       /// Write the lines of code to search for the object within "my_dll" with a key matching "target_key".  Return a pointer to that
       /// object immediately upon finding it, or a null pointer when you know the object is not in the container.
-
+    for (auto &element : my_dll)
+    {
+      if (element.key() == target_key)
+      {
+        return &element;
+      }
+    }
+    return nullptr;
     /////////////////////// END-TO-DO (18) ////////////////////////////
   }
 
@@ -523,7 +544,14 @@ struct search_within_sll
     ///////////////////////// TO-DO (19) //////////////////////////////
       /// Write the lines of code to search for the object within "my_sll" with a key matching "target_key".  Return a pointer to that
       /// object immediately upon finding it, or a null pointer when you know the object is not in the container.
-
+    for (auto &element : my_sll)
+    {
+      if (element.key() == target_key)
+      {
+        return &element;
+      }
+    }
+    return nullptr;
     /////////////////////// END-TO-DO (19) ////////////////////////////
   }
 
@@ -548,7 +576,13 @@ struct search_within_bst
     ///////////////////////// TO-DO (20) //////////////////////////////
       /// Write the lines of code to search for the object within "my_bst" with a key matching "target_key".  Return a pointer to that
       /// object immediately upon finding it, or a null pointer when you know the object is not in the container.
+    auto it = my_bst.find(target_key);
 
+    if (it != my_bst.end()) {
+      return &(it->second);
+    } else {
+      return nullptr;
+    }
     /////////////////////// END-TO-DO (20) ////////////////////////////
   }
 
@@ -573,7 +607,12 @@ struct search_within_hash_table
     ///////////////////////// TO-DO (21) //////////////////////////////
       /// Write the lines of code to search for the object within "my_hash_table" with a key matching "target_key".  Return a pointer to
       /// that object immediately upon finding it, or a null pointer when you know the object is not in the container.
-
+    auto it = my_hash_table.find(target_key);
+    if (it != my_hash_table.end()) {
+      return &(it->second);
+    } else {
+      return nullptr;
+    }
     /////////////////////// END-TO-DO (21) ////////////////////////////
   }
 

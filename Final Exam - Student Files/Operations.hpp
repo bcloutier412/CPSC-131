@@ -28,7 +28,8 @@ struct insert_at_back_of_vector
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
       /// Write the lines of code to insert "object" at the back of "my_vector"
-
+    my_vector.push_back( object );
+    return;
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 
@@ -50,7 +51,8 @@ struct insert_at_back_of_dll
   {
     ///////////////////////// TO-DO (2) //////////////////////////////
       /// Write the lines of code to insert "object" at the back of "my_dll"
-
+    my_dll.push_back( object );
+    return;
     /////////////////////// END-TO-DO (2) ////////////////////////////
   }
 
@@ -74,6 +76,25 @@ struct insert_at_back_of_sll
       /// Write the lines of code to insert "object" at the back of "my_sll". Since the SLL has no size() function and no tail pointer, you
       /// must walk the list looking for the last node. Hint:  Do not attempt to insert after "my_sll.end()"
 
+    // If the sll is empty then push to the front of the list.
+    if (my_sll.empty())
+    {
+      my_sll.push_front( object );
+      return;
+    }
+
+    // If there are elements we must walk through the list
+    auto it = my_sll.begin();
+    auto prev = it;
+    ++it;
+    while (it != my_sll.end())
+    {
+      prev = it;
+      ++it;
+    }
+
+    my_sll.insert_after( prev, object );
+    return;
     /////////////////////// END-TO-DO (3) ////////////////////////////
   }
 
@@ -95,7 +116,8 @@ struct insert_at_front_of_vector
   {
     ///////////////////////// TO-DO (4) //////////////////////////////
       /// Write the lines of code to insert "object" at the front of "my_vector"
-
+    my_vector.insert( my_vector.begin(), object );
+    return;
     /////////////////////// END-TO-DO (4) ////////////////////////////
   }
 
@@ -117,7 +139,8 @@ struct insert_at_front_of_dll
   {
     ///////////////////////// TO-DO (5) //////////////////////////////
       /// Write the lines of code to insert "object" at the front of "my_dll"
-
+    my_dll.push_front( object );
+    return;
     /////////////////////// END-TO-DO (5) ////////////////////////////
   }
 
@@ -139,7 +162,8 @@ struct insert_at_front_of_sll
   {
     ///////////////////////// TO-DO (6) //////////////////////////////
       /// Write the lines of code to insert "object" at the front of "my_sll"
-
+    my_sll.push_front( object );
+    return;
     /////////////////////// END-TO-DO (6) ////////////////////////////
   }
 
@@ -164,7 +188,8 @@ struct insert_into_bst
       /// Write the lines of code to insert the object's key and value pair into "my_bst". To obtain the object's key, determine
       /// SomeObject's base type and review your prior homework class interface. For example, if SomeObject's base type is a
       /// HotelReservation, you might obtain the reservation's key with object.reservationNumber().
-
+    my_bst.insert( { object.key(), object } );
+    return;
     /////////////////////// END-TO-DO (7) ////////////////////////////
   }
 
@@ -189,7 +214,8 @@ struct insert_into_hash_table
       /// Write the lines of code to insert the object's key and value pair into "my_hash_table". To obtain the object's key, determine
       /// SomeObject's base type and review your prior homework class interface. For example, if SomeObject's base type is a
       /// HotelReservation, you might obtain the reservation's key with object.reservationNumber().
-
+    my_hash_table.insert( { object.key(), object } );
+    return;
     /////////////////////// END-TO-DO (8) ////////////////////////////
   }
 
@@ -224,7 +250,10 @@ struct remove_from_back_of_vector
     ///////////////////////// TO-DO (9) //////////////////////////////
       /// Write the lines of code to remove the object at the back of "my_vector". Remember, attempting to remove an object from an empty
       /// data structure is a logic error.  Include code to avoid that.
+    if( my_vector.empty() == true ) return;
 
+    my_vector.pop_back();
+    return;
     /////////////////////// END-TO-DO (9) ////////////////////////////
   }
 
@@ -247,7 +276,10 @@ struct remove_from_back_of_dll
     ///////////////////////// TO-DO (10) //////////////////////////////
       /// Write the lines of code to remove the object at the back of "my_dll". Remember, attempting to remove an object from an empty data
       /// structure is a logic error.  Include code to avoid that.
+    if( my_dll.empty() == true ) return;
 
+    my_dll.pop_back();
+    return;
     /////////////////////// END-TO-DO (10) ////////////////////////////
   }
 
@@ -270,7 +302,19 @@ struct remove_from_back_of_sll
     ///////////////////////// TO-DO (11) //////////////////////////////
       /// Write the lines of code to remove the object at the back of "my_sll". Remember, attempting to remove an object from an empty data
       /// structure is a logic error.  Include code to avoid that.
+    if( my_sll.empty() == true ) return;
 
+    auto it = my_sll.before_begin();
+    auto next = it;
+    ++next;
+    while (next != my_sll.end())
+    {
+      it = next;
+      ++next;
+    }
+
+    my_sll.erase_after( it );
+    return;
     /////////////////////// END-TO-DO (11) ////////////////////////////
   }
 
@@ -293,7 +337,10 @@ struct remove_from_front_of_vector
     ///////////////////////// TO-DO (12) //////////////////////////////
       /// Write the lines of code to remove the object at the front of "my_vector". Remember, attempting to remove an object from an empty
       /// data structure is a logic error.  Include code to avoid that.
+    if( my_vector.empty() == true ) return;
 
+    my_vector.erase( my_vector.begin() );
+    return;
     /////////////////////// END-TO-DO (12) ////////////////////////////
   }
 
@@ -316,7 +363,10 @@ struct remove_from_front_of_dll
     ///////////////////////// TO-DO (13) //////////////////////////////
       /// Write the lines of code to remove the object at the front of "my_dll". Remember, attempting to remove an object from an empty data
       /// structure is a logic error.  Include code to avoid that.
+    if( my_dll.empty() == true ) return;
 
+    my_dll.pop_front();
+    return;
     /////////////////////// END-TO-DO (13) ////////////////////////////
   }
 
@@ -339,7 +389,10 @@ struct remove_from_front_of_sll
     ///////////////////////// TO-DO (14) //////////////////////////////
       /// Write the lines of code to remove the object at the front of "my_sll". Remember, attempting to remove an object from an empty data
       /// structure is a logic error.  Include code to avoid that.
+    if( my_sll.empty() == true ) return;
 
+    my_sll.pop_front();
+    return;
     /////////////////////// END-TO-DO (14) ////////////////////////////
   }
 
@@ -363,7 +416,7 @@ struct remove_from_bst
     ///////////////////////// TO-DO (15) //////////////////////////////
       /// Write the lines of code to remove the object from "my_bst" that has a matching key. Remember, attempting to remove an object from
       /// an empty data structure is a logic error.  Include code to avoid that.
-
+    if( my_bst.empty() == true ) return;
     /////////////////////// END-TO-DO (15) ////////////////////////////
   }
 
